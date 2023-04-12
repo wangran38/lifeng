@@ -195,7 +195,7 @@ func GetCNum(search *Category) int64 {
 	session := orm.Table("category")
 	// stringid := strconv.FormatInt(search.Id, 10)
 	if search.Id > 0 {
-		session = session.And("id", search.Id)
+		session = session.And("id = ?", search.Id)
 	}
 	// fmt.Println(stringid)
 	// stringpid := strconv.FormatInt(search.Id, 10)

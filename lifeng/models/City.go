@@ -43,21 +43,21 @@ func GetCityList(limit int, pagesize int, search *City, order string) []*City {
 
 	session := orm.Table("area")
 	// stringid := strconv.FormatInt(search.Id, 10)
-	if search.Id > 0 {
-		session = session.And("id", search.Id)
+	if search.Id >= 1 {
+		session = session.And("id = ?", search.Id)
 	}
-	if search.Pid > 0 {
-		session = session.And("pid", search.Pid)
+	if search.Pid >= 1 {
+		session = session.And("pid = ?", search.Pid)
 	}
 	if search.Shortname != "" {
 		shortname := "%" + search.Shortname + "%"
 		session = session.And("shortname LIKE ?", shortname)
 	}
-	// if search.Level >=0 {
-	// 	// level := "%" + search.Level + "%"
-	// 	session = session.And("level", search.Level)
-
-	// }
+	if search.Level >= 1 {
+		session = session.And("level = ?", search.Level)
+	} else {
+		session = session.And("level = ?", 1)
+	}
 	if search.Name != "" {
 		name := "%" + search.Name + "%"
 		session = session.And("name LIKE ?", name)
@@ -69,7 +69,7 @@ func GetCityList(limit int, pagesize int, search *City, order string) []*City {
 	}
 	if search.Code != "" {
 		// code := "%" + search.Code + "%"
-		session = session.And("code", search.Code)
+		session = session.And("code = ?", search.Code)
 	}
 	if search.Zip != "" {
 		zip := "%" + search.Zip + "%"
@@ -95,11 +95,16 @@ func GetCitytotal(search *City) int64 {
 	var num int64
 	num = 0
 	session := orm.Table("area")
-	if search.Id > 0 {
-		session = session.And("id", search.Id)
+	if search.Id >= 1 {
+		session = session.And("id = ?", search.Id)
 	}
-	if search.Pid > 0 {
-		session = session.And("pid", search.Pid)
+	if search.Pid >= 1 {
+		session = session.And("pid = ?", search.Pid)
+	}
+	if search.Level >= 1 {
+		session = session.And("level = ?", search.Level)
+	} else {
+		session = session.And("level = ?", 1)
 	}
 	if search.Shortname != "" {
 		shortname := "%" + search.Shortname + "%"
@@ -121,7 +126,7 @@ func GetCitytotal(search *City) int64 {
 	}
 	if search.Code != "" {
 		// code := "%" + search.Code + "%"
-		session = session.And("code", search.Code)
+		session = session.And("code = ?", search.Code)
 	}
 	if search.Zip != "" {
 		zip := "%" + search.Zip + "%"

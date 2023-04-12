@@ -16,6 +16,7 @@ type News struct {
 	Isshow     int       `json:"isshow" xorm:"not null default 1 comment('是否启用 默认1 是 0 无') TINYINT"`
 	Created time.Time `json:"createtime" xorm:"int"`
 	Updated time.Time `json:"updatetime" xorm:"int"`
+	Opennums   int  `json:"opennums"`
 	Weigh   int  `json:"weigh"`
 	Status  int       `json:"status"`
 }
@@ -64,7 +65,7 @@ func GetNewsList(limit int, pagesize int, search *News, order string) []*News {
 	session := orm.Table("news")
 	// stringid := strconv.FormatInt(search.Id, 10)
 	if search.Id > 0 {
-		session = session.And("id", search.Id)
+		session = session.And("id = ?", search.Id)
 	}
 	// fmt.Println(stringid)
 
@@ -74,7 +75,7 @@ func GetNewsList(limit int, pagesize int, search *News, order string) []*News {
 		// session = session.And("pid", rules.Title)
 	}
 	if search.Categoryid > 0 {
-		session = session.And("category_id", search.Categoryid)
+		session = session.And("category_id = ?", search.Categoryid)
 	}
 
 	var byorder string
@@ -91,7 +92,7 @@ func GetNewstotal(search *News) int64 {
 	num = 0
 	session := orm.Table("news")
 	if search.Id > 0 {
-		session = session.And("id", search.Id)
+		session = session.And("id = ?", search.Id)
 	}
 	if search.Title != "" {
 		name := "%" + search.Title + "%"
@@ -99,7 +100,7 @@ func GetNewstotal(search *News) int64 {
 		// session = session.And("pid", rules.Title)
 	}
 	if search.Isshow > 0 {
-		session = session.And("isshow", search.Isshow)
+		session = session.And("isshow = ?", search.Isshow)
 		// session = session.And("pid", rules.Title)
 	}
 	a := new(News)

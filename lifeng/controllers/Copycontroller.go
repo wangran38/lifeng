@@ -324,6 +324,19 @@ func Copyex(c *gin.Context) {
 time.Sleep(20 * time.Second) 
 	}
 }
+func Copynews(c *gin.Context) {
+	resp, _ := http.Get("https://www.jufair.com/exhibition-0-0-1-0-0-0-")
+    defer resp.Body.Close() //go的特殊语法，main函数执行结束前会执行 resp.Body.Close()
+    //fmt.Println(resp.StatusCode)          //有http的响应码输出
+    if resp.StatusCode == http.StatusOK { //如果响应码为200
+        body, err := ioutil.ReadAll(resp.Body) //把响应的body读出
+        if err != nil {                        //如果有异常
+            fmt.Println(err) //把异常打印
+            log.Fatal(err)   //日志
+        }
+		fmt.Println(string(body))
+	}
+}
 func Maintest(c *gin.Context) {
 	//1、时间戳转时间
 	nowUnix := time.Now().Unix() //获取当前时间戳

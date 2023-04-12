@@ -52,9 +52,9 @@ func init() {
 		//admin.POST("/copy/copyexhibition", controllers.Copyexhibition)
 		admin.POST("/copy/copyex", controllers.Copyex)
 		admin.POST("/copy/test", controllers.Maintest)
-		// //设备接口
-		// admin.POST("/devicelist", controllers.Getdevicelist)
-		// admin.POST("/adddevice", controllers.AddDevice)
+		//展会接口
+		admin.POST("/exhibitionlist", controllers.GetExhibitionlist)
+		admin.POST("/addexhibition", controllers.AddExhibition)
 		// admin.POST("/editdevice", controllers.EditDevice)
 		// admin.POST("/deldevice", controllers.DelDevice)
 		// //SIM卡接口
@@ -74,7 +74,10 @@ func init() {
 		api := router.Group("/api")
 	{
 api.POST("/cglist", apic.Getcategorylist) //登录
+api.POST("/cgtree", apic.Getcategorytree) //登录
 api.POST("/exlist", apic.GetExlist) //登录
+api.POST("/citylist", apic.Getcitylist) //登录
+api.POST("/newslist", apic.GetNewslist) //登录
 	}
 	//开启TCP服务啦
 	// listen, err := net.Listen("tcp", "127.0.0.1:20000")
@@ -91,7 +94,7 @@ api.POST("/exlist", apic.GetExlist) //登录
 	// 	go process(conn) // 启动一个goroutine处理连接
 	// }
 	// //开启TCP服务结束
-	router.Run(":87")
+	router.Run(":8081")
 }
 
 // //// 跨域

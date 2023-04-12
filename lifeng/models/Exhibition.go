@@ -86,7 +86,7 @@ func GetexhibitionList(limit int, pagesize int, search *Exhibition, order string
 	session := orm.Table("exhibition")
 	// stringid := strconv.FormatInt(search.Id, 10)
 	if search.Id > 0 {
-		session = session.And("id =?", search.Id)
+		session = session.And("id = ?", search.Id)
 	}
 	// fmt.Println(stringid)
 
