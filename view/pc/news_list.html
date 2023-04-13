@@ -1,0 +1,8 @@
+<html>
+	<h1>
+		{{ .message }}
+	</h1>
+    {{range $index,$value := .data.listdata}}
+<p>{{$index}} : {{$value}} </p>
+{{end}}
+</html>
