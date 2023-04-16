@@ -46,7 +46,9 @@ const (
 	EN_NAME = `<div class="En_name" .*?>(?s:(.*?))</div>` //a
 	SCALE = `<div class="scale-remind" .*?><div .*?>(?s:(.*?))</div>` //取得会展面积
 	ETIME = `<time .*?>(?s:(.*?))</time>` //取得会展的时间
-      
+      //采集展会资讯
+	News_title = `<h1 .*?>(?s:(.*?))</h1>` //新闻资讯的标题
+	News_neirong = `<div class="pagecont" .*?>(?s:(.*?))<!--文章类容-->` //新闻资讯的内容
 	 
 
 )
@@ -325,7 +327,9 @@ time.Sleep(20 * time.Second)
 	}
 }
 func Copynews(c *gin.Context) {
-	resp, _ := http.Get("https://www.jufair.com/exhibition-0-0-1-0-0-0-")
+	for i := 23199; i <= 23220; i++ {
+	resp, _ := http.Get("https://www.onezh.com/news/"+strconv.Itoa(i)+".html")
+	// resp, _ := http.Get("https://www.onezh.com/news/23201.html")
     defer resp.Body.Close() //go的特殊语法，main函数执行结束前会执行 resp.Body.Close()
     //fmt.Println(resp.StatusCode)          //有http的响应码输出
     if resp.StatusCode == http.StatusOK { //如果响应码为200
@@ -334,7 +338,26 @@ func Copynews(c *gin.Context) {
             fmt.Println(err) //把异常打印
             log.Fatal(err)   //日志
         }
-		fmt.Println(string(body))
+
+		// fmt.Println(string(body))
+    t1 := regexp.MustCompile(News_title)
+	rs1 := t1.FindAllStringSubmatch(string(body),-1)
+	fmt.Println(string(rs1[0][1]))
+	p1 := regexp.MustCompile(News_neirong)
+	rs2 := p1.FindAllStringSubmatch(string(body),-1)
+	fmt.Println(string(rs2[0][1]))
+	// exhibitiondata := new(models.Exhibition)
+	newsdata := new(models.News)
+	newsdata.Title = strings.TrimSpace(rs1[0][1])
+	newsdata.Categoryid = 1
+	newsdata.Content = strings.TrimSpace(rs2[0][1])
+	err1 := models.Addnews(newsdata) //判断账号是否存在！
+		if err1 != nil {
+			fmt.Println(err1)
+	}
+	
+	}
+	time.Sleep(15 * time.Second)
 	}
 }
 func Maintest(c *gin.Context) {

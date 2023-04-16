@@ -6,6 +6,7 @@ import (
 	"strings"
 	"linfeng/controllers"
 	"linfeng/apic"
+	"linfeng/htmlc"
 	_ "linfeng/models"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,8 @@ func init() {
 	    //加载模版
     //router.LoadHTMLGlob("./view/*")
 	router.LoadHTMLGlob("./view/**/*")
-	router.GET("/news_list", apic.GetNewslist)
+	// router.GET("/news_list/:page/:limit/:cagegoryid", apic.GetNewslist)
+	router.GET("/news_list/:page/:limit/:cagegoryid", htmlc.Newslist)
 	router.Use(Cors())
 	// 版本v1
 	admin := router.Group("/admin")
@@ -52,7 +54,7 @@ func init() {
 		admin.POST("/treecategory", controllers.TreeCategory)
 		//爬取接口
 		admin.POST("/copy/copycategory", controllers.Copycategory)
-		//admin.POST("/copy/copyexhibition", controllers.Copyexhibition)
+		admin.POST("/copy/news", controllers.Copynews)
 		admin.POST("/copy/copyex", controllers.Copyex)
 		admin.POST("/copy/test", controllers.Maintest)
 		//展会接口

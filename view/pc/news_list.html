@@ -3,6 +3,6 @@
 		{{ .message }}
 	</h1>
     {{range $index,$value := .data.listdata}}
-<p>{{$index}} : {{$value}} </p>
+<p>标题 : {{$value.Title}} </p>
 {{end}}
 </html>
