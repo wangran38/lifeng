@@ -21,6 +21,7 @@ var err error
 
 func init() {
 	orm, err = xorm.NewEngine("mysql", "root:110119@tcp(localhost:3306)/linfeng?charset=utf8")
+	//orm, err = xorm.NewEngine("mysql", "linfeng:XZb5ZBFYai6sj3Bn@tcp(localhost:3306)/linfeng?charset=utf8")
 	// engine, err := xorm.NewEngine("mysql", "2343432:122222@/(http://127.0.0.1:3306)/ginstudy?charset=utf8")
 	// db, err = xorm.NewEngine("mysql", "username:password@tcp(host:3306)/dbname?charset=utf8")
 	if err != nil {

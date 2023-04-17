@@ -18,8 +18,11 @@ func init() {
 	    //加载模版
     //router.LoadHTMLGlob("./view/*")
 	router.LoadHTMLGlob("./view/**/*")
+	router.StaticFS("/static", http.Dir("./static"))
 	// router.GET("/news_list/:page/:limit/:cagegoryid", apic.GetNewslist)
 	router.GET("/news_list/:page/:limit/:cagegoryid", htmlc.Newslist)
+	router.GET("/index", htmlc.Pcindex)
+	router.GET("/ex_list", htmlc.Pczhanhui)
 	router.Use(Cors())
 	// 版本v1
 	admin := router.Group("/admin")
@@ -101,7 +104,7 @@ api.POST("/newslist", apic.GetNewslist) //登录
 	// 	go process(conn) // 启动一个goroutine处理连接
 	// }
 	// //开启TCP服务结束
-	router.Run(":8081")
+	router.Run(":8088")
 }
 
 // //// 跨域
